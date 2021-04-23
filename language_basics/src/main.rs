@@ -44,9 +44,11 @@ fn main() {
 
         println!("{}, {}", s1, s2); // This will print `hello, world!`
 
-        // But stack only values, primitives it seems like, such as integers will get deep copied when we assign it over
+        // But stack only values, anything we know the size of at compile time, such as integers will get deep copied when we assign it over
+        // anything with the Copy trait will get fully copied onto the stack
+        // If it has a Copy trait it can't have a Drop trait and vice versa
         let x = 5;
-        let y = x;
+        let y = x; // Both values are valid, we have them both on the stack since integers have known size at compile time
 
         println!("{}, {}", x, y)
     } // Since we are now out of scope rust calls `drop` for string s
