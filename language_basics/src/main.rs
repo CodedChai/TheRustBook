@@ -29,9 +29,27 @@ fn main() {
     // Rust has implied returns from conditionals just like Kotlin
     let condition = true;
 
-    let number = if condition { 5 } else { 6" };
+    let number = if condition { 5 } else { 6 };
 
     println!("The value of number is: {}", number);
+
+    // Rust will automatically clear memory once something is out of scope
+    {
+        let mut s = String::from("hello");
+
+        s.push_str(", world!"); // push_str() appends a literal to a String
+
+        let s1 = s; // This actually moves s to s1, it does not do a shallow copy, s is now invalid
+        let s2 = s1.clone(); // This will do a deep copy as you'd expect
+
+        println!("{}, {}", s1, s2); // This will print `hello, world!`
+
+        // But stack only values, primitives it seems like, such as integers will get deep copied when we assign it over
+        let x = 5;
+        let y = x;
+
+        println!("{}, {}", x, y)
+    } // Since we are now out of scope rust calls `drop` for string s
 }
 
 fn plus_one(x: i32) -> i32 {
