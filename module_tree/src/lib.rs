@@ -1,15 +1,37 @@
-mod front_of_house {
-    pub mod hosting {
-        pub fn add_to_waitlist() {}
-    }
+mod front_of_house; // load contents of module from another file
+
+pub use crate::front_of_house::hosting; // add in the namespace
+
+use std::fmt::Result;
+use std::io::Result as IoResult;
+
+fn function1() -> Result {
+    // --snip--
 }
+
+fn function2() -> IoResult<()> {
+    // --snip--
+}
+
+// This brings the path into scope via absolute path
+// use crate::front_of_house::hosting;
+
+// This brings the path into scope via relative path
+//use self::front_of_house::hosting;
+
+// You can import the function directly
+//use crate::front_of_house::hosting::add_to_waitlist;
 
 pub fn eat_at_restaurant() {
     // Absolute path
     crate::front_of_house::hosting::add_to_waitlist();
 
-    // Relative path
-    front_of_house::hosting::add_to_waitlist();
+    // Relative path - when the path is not in scope
+    // front_of_house::hosting::add_to_waitlist();
+
+    hosting::add_to_waitlist(); // Imported module
+
+    add_to_waitlist(); // Imported fn
 }
 
 fn serve_order() {}
